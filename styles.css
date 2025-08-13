@@ -1,29 +1,30 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: #000; /* full-screen black */
+.ceefax-header {
+  font-family: 'Courier New', monospace; /* fixed-width font */
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
 }
 
-body {
+.header-line {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Courier New', monospace;
-  text-transform: uppercase;
-}
-
-/* Responsive 4:3 container */
-.ceefax-container {
-  aspect-ratio: 4 / 3;
-  width: 95vw;
-  max-width: 800px;
-  background-color: #000; /* black "screen" area */
-  color: #00FF00;
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  padding: 10px;
-  overflow: hidden;
-  text-shadow: 0 0 2px currentColor;
+  align-items: center;
+  white-space: nowrap; /* keep all on one line */
+}
+
+.page-info {
+  color: #ffff00;
+  width: 6ch; /* 6 character cells */
+}
+
+.page-title {
+  color: #00ff00;
+  text-align: center;
+  flex: 1;
+}
+
+.timestamp {
+  color: #ffffff;
+  width: 16ch; /* consistent spacing for time/date */
+  text-align: right;
 }
