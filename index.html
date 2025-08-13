@@ -11,101 +11,34 @@
   <div class="ceefax-container">
     <!-- HEADER -->
     <header class="ceefax-header">
-      <div class="left">
-        <div class="page-info">P100</div>
-      </div>
-      <div class="center">
-        <div class="page-title">BBC CEEFAX</div>
-      </div>
-      <div class="right">
-        <div class="timestamp">Wed 13 Aug 22:36/42</div>
-        <input id="page-input" type="text" maxlength="3" placeholder="###" />
-        <button id="go-btn">Go</button>
-      </div>
+      <div class="page-info">P100</div>
+      <div class="page-title">BBC CEEFAX</div>
+      <div class="timestamp">WED 13 AUG 22:36/42</div>
     </header>
 
     <!-- HEADLINE -->
-    <section class="headline">
-      FORMULA 1: Verstappen wins in Hungary
+    <section class="headline yellow">
+      FORMULA 1: VERSTAPPEN WINS IN HUNGARY
     </section>
 
     <!-- NAVIGATION -->
     <nav class="navigation">
       <ul>
-        <li data-page="101">101 News Headlines</li>
-        <li data-page="144">144 Political News</li>
-        <li data-page="152">152 Newsreel</li>
-        <li data-page="300">300 Sports Summary</li>
-        <li data-page="400">400 Weather Forecast</li>
+        <li class="cyan" data-page="101">101 NEWS HEADLINES</li>
+        <li class="red" data-page="144">144 POLITICAL NEWS</li>
+        <li class="green" data-page="152">152 NEWSREEL</li>
+        <li class="magenta" data-page="300">300 SPORTS SUMMARY</li>
+        <li class="yellow" data-page="400">400 WEATHER FORECAST</li>
       </ul>
     </nav>
 
     <!-- FOOTER -->
     <footer class="ceefax-footer">
-      Headlines | Sport | Regional TV | A–Z Index
+      HEADLINES | SPORT | REGIONAL TV | A–Z INDEX
       <span class="cursor">█</span>
     </footer>
   </div>
 
-  <script>
-    const container  = document.querySelector('.ceefax-container');
-    const pageInfo   = document.querySelector('.page-info');
-    const pageTitle  = document.querySelector('.page-title');
-    const input      = document.getElementById('page-input');
-    const goBtn      = document.getElementById('go-btn');
-    const navItems   = document.querySelectorAll('.navigation li');
-
-    navItems.forEach(li => {
-      li.addEventListener('click', () => {
-        const target = parseInt(li.dataset.page, 10);
-        goToPage(target);
-      });
-    });
-
-    goBtn.addEventListener('click', () => {
-      const val = parseInt(input.value, 10);
-      if (!isNaN(val)) goToPage(val);
-      input.value = '';
-    });
-
-    function goToPage(target) {
-      let current = parseInt(pageInfo.textContent.substring(1), 10);
-      if (current === target) return;
-
-      pageTitle.style.color = '#00FF00';
-      const step = current < target ? 1 : -1;
-      const interval = setInterval(() => {
-        current += step;
-        pageInfo.textContent = 'P' + String(current).padStart(3, '0');
-        if (current === target) {
-          clearInterval(interval);
-          screenRefresh(() => {
-            pageTitle.style.color = '#00FF00';
-          });
-        }
-      }, 40);
-    }
-
-    function screenRefresh(callback) {
-      const overlay = document.createElement('div');
-      overlay.className = 'refresh-overlay';
-      overlay.style.height = '0%';
-      container.appendChild(overlay);
-
-      requestAnimationFrame(() => {
-        overlay.style.transition = 'height 200ms linear';
-        overlay.style.height = '100%';
-        overlay.addEventListener('transitionend', () => {
-          overlay.style.transition = 'height 200ms linear';
-          overlay.style.height = '0%';
-          overlay.addEventListener('transitionend', () => {
-            container.removeChild(overlay);
-            if (callback) callback();
-          }, { once: true });
-        }, { once: true });
-      });
-    }
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>
