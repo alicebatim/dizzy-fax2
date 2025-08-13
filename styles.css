@@ -1,5 +1,28 @@
+/* Universal reset for the Ceefax block */
+body {
+  background-color: black;
+  margin: 0;
+}
+
+/* Wrap the whole teletext UI in this container */
+.ceefax-wrapper {
+  max-width: 40ch;        /* matches 40-column teletext width */
+  margin: 0 auto;         /* horizontally centres the block */
+  background-color: black;
+  padding: 0.5ch 1ch;     /* small buffer inside the edges */
+  box-sizing: border-box; /* keeps width predictable */
+}
+
+/* Load your custom font with fallbacks */
+@font-face {
+  font-family: 'Bedstead';
+  src: url('bedstead.woff2') format('woff2'),
+       url('bedstead.woff') format('woff');
+  font-display: swap;
+}
+
 .ceefax-header {
-  font-family: 'Courier New', monospace; /* fixed-width font */
+  font-family: 'Bedstead', 'Courier New', Courier, monospace;
   font-size: 16px;
   font-weight: bold;
   color: #fff;
@@ -9,22 +32,25 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  white-space: nowrap; /* keep all on one line */
+  white-space: nowrap;
 }
 
+/* Left: Page code */
 .page-info {
   color: #ffff00;
-  width: 6ch; /* 6 character cells */
+  width: 6ch;
 }
 
+/* Centre: Page title */
 .page-title {
   color: #00ff00;
   text-align: center;
   flex: 1;
 }
 
+/* Right: Timestamp */
 .timestamp {
   color: #ffffff;
-  width: 16ch; /* consistent spacing for time/date */
+  width: 16ch;
   text-align: right;
 }
