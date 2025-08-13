@@ -1,9 +1,5 @@
 /* Reset & base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
   background: #111;
@@ -12,117 +8,97 @@ body {
   align-items: center;
   min-height: 100vh;
   font-family: 'Courier New', monospace;
+  text-transform: uppercase;
 }
 
-/* 4:3 CEEFAX container */
+/* 4:3 container */
 .ceefax-container {
   position: relative;
   width: 800px;
   height: 600px;
   background-color: black;
   color: #00FF00;
-  /* border: 4px solid #00FF00; */ /* ← Removed */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 10px;
   overflow: hidden;
+  text-shadow: 0 0 2px currentColor;
 }
 
-/* Header with page, title, time, input */
+/* Optional CRT scanlines */
+.ceefax-container::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.2) 2px,
+    rgba(0,0,0,0.2) 4px
+  );
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Header */
 .ceefax-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
 }
-
-.ceefax-header .left,
-.ceefax-header .center,
-.ceefax-header .right {
-  display: flex;
-  align-items: center;
-}
-
-.page-info {
-  width: 50px;
-}
-
-.page-title {
-  flex: 1;
-  text-align: center;
-  transition: color 0.2s;
-}
-
-.timestamp {
-  width: 120px;
-  text-align: right;
-}
-
-#page-input {
-  width: 40px;
-  margin-left: 10px;
-  background: black;
-  color: #00FF00;
-  border: 1px solid #00FF00;
-  text-align: center;
-}
-
-#go-btn {
-  margin-left: 5px;
-  padding: 2px 6px;
-  background: #00FF00;
-  color: black;
-  border: none;
-  cursor: pointer;
-}
+.page-info { color: #ff0; }
+.page-title { color: #0f0; }
+.timestamp { color: #fff; }
 
 /* Headline */
 .headline {
   font-size: 24px;
   text-align: center;
-  padding: 10px 0;
-  border-top: 2px dashed #00FF00;
-  border-bottom: 2px dashed #00FF00;
+  padding: 8px 0;
+  border-top: 2px solid #fff;
+  border-bottom: 2px solid #fff;
 }
 
 /* Navigation */
 .navigation ul {
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  font-size: 16px;
-  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 18px;
+  text-align: center;
 }
+.navigation li { cursor: pointer; }
 
-.navigation li {
-  cursor: pointer;
-  color: #00FFFF;
-}
-
-/* Footer & blinking cursor */
+/* Footer */
 .ceefax-footer {
   font-size: 14px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
+  color: #fff;
 }
-
 .cursor {
   margin-left: 5px;
   animation: blink 1s steps(1) infinite;
 }
+@keyframes blink { 50% { opacity: 0; } }
 
-@keyframes blink {
-  50% { opacity: 0; }
-}
+/* Colour classes */
+.red { color: #ff0000; }
+.green { color: #00ff00; }
+.yellow { color: #ffff00; }
+.cyan { color: #00ffff; }
+.magenta { color: #ff00ff; }
+.white { color: #ffffff; }
 
-/* Refresh-overlay wipe effect */
+/* Refresh overlay for JS wipe effect */
 .refresh-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 0; left: 0;
   width: 100%;
   background: white;
   pointer-events: none;
