@@ -1,0 +1,130 @@
+/* Reset & base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Courier New', monospace;
+}
+
+/* 4:3 CEEFAX container */
+.ceefax-container {
+  position: relative;
+  width: 800px;
+  height: 600px;
+  background-color: black;
+  color: #00FF00;
+  border: 4px solid #00FF00;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px;
+  overflow: hidden;
+}
+
+/* Header with page, title, time, input */
+.ceefax-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.ceefax-header .left,
+.ceefax-header .center,
+.ceefax-header .right {
+  display: flex;
+  align-items: center;
+}
+
+.page-info {
+  width: 50px;
+}
+
+.page-title {
+  flex: 1;
+  text-align: center;
+  transition: color 0.2s;
+}
+
+.timestamp {
+  width: 120px;
+  text-align: right;
+}
+
+#page-input {
+  width: 40px;
+  margin-left: 10px;
+  background: black;
+  color: #00FF00;
+  border: 1px solid #00FF00;
+  text-align: center;
+}
+
+#go-btn {
+  margin-left: 5px;
+  padding: 2px 6px;
+  background: #00FF00;
+  color: black;
+  border: none;
+  cursor: pointer;
+}
+
+/* Headline */
+.headline {
+  font-size: 24px;
+  text-align: center;
+  padding: 10px 0;
+  border-top: 2px dashed #00FF00;
+  border-bottom: 2px dashed #00FF00;
+}
+
+/* Navigation */
+.navigation ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-size: 16px;
+  justify-content: center;
+}
+
+.navigation li {
+  cursor: pointer;
+  color: #00FFFF;
+}
+
+/* Footer & blinking cursor */
+.ceefax-footer {
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cursor {
+  margin-left: 5px;
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* Refresh-overlay wipe effect */
+.refresh-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  pointer-events: none;
+  z-index: 10;
+}
