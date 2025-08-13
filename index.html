@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>BBC CEEFAX</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <title>BBC CEEFAX</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="ceefax-wrapper" id="ceefax">
+    <header class="ceefax-header">
+      <div class="header-line">
+        <span id="pageInfo" class="page-info">P100</span>
+        <span class="page-title">BBC CEEFAX</span>
+        <span class="timestamp">
+          <span id="datePart" class="date">WED 13 AUG</span>
+          <span id="timePart" class="time">22:36:42</span>
+        </span>
+      </div>
+    </header>
+    <!-- Add page content below -->
+  </div>
 
-<div class="ceefax-wrapper">
-  <header class="ceefax-header">
-    <div class="header-line">
-      <span class="page-info">P100</span>
-      <span class="page-title">BBC CEEFAX</span>
-      <span id="timestamp" class="timestamp"></span>
-    </div>
-  </header>
-</div>
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>

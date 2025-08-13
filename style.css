@@ -1,25 +1,26 @@
+/* Page centering and 4:3 “screen” */
 body {
   background-color: black;
   margin: 0;
   display: flex;
-  justify-content: center; /* centre wrapper horizontally */
-  align-items: center;     /* centre wrapper vertically */
+  justify-content: center;
+  align-items: center;
   height: 100vh;
 }
 
 .ceefax-wrapper {
-  aspect-ratio: 4 / 3;      /* fixed TV shape */
+  aspect-ratio: 4 / 3;
   width: 90vw;
   max-width: 960px;
   background-color: black;
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* vertically centre header */
+  justify-content: flex-start; /* header at top of screen */
   box-sizing: border-box;
   padding: 0.5ch 1ch;
 }
 
-/* Load Bedstead font if you have it locally */
+/* Optional Bedstead font */
 @font-face {
   font-family: 'Bedstead';
   src: url('bedstead.woff2') format('woff2'),
@@ -27,6 +28,7 @@ body {
   font-display: swap;
 }
 
+/* Header typography */
 .ceefax-header {
   font-family: 'Bedstead', 'Courier New', Courier, monospace;
   font-size: 16px;
@@ -36,11 +38,48 @@ body {
 
 .header-line {
   display: flex;
-  justify-content: space-between; /* left, centre, right */
+  justify-content: space-between;
   align-items: center;
   white-space: nowrap;
 }
 
-.page-info  { color: #ffff00; width: 6ch; }
-.page-title { color: #00ff00; text-align: center; flex: 1; }
-.timestamp  { color: #ffffff; width: 16ch; text-align: right; }
+/* Left: page number (white by default) */
+.page-info {
+  color: #ffffff;
+  width: 6ch;
+  white-space: pre; /* so partial input spacing is preserved */
+}
+
+/* Centre: title (white) */
+.page-title {
+  color: #ffffff;
+  text-align: center;
+  flex: 1;
+}
+
+/* Right: timestamp container */
+.timestamp {
+  width: 22ch; /* room for date + space + time */
+  text-align: right;
+}
+
+/* Date (white normally, green while scanning) */
+.date {
+  color: #ffffff;
+}
+
+/* Time (clock) always yellow */
+.time {
+  color: #ffff00;
+}
+
+/* Scanning state flips the date to green until target reached */
+.ceefax-wrapper.scanning .date {
+  color: #00ff00;
+}
+.target-page {
+  color: cyan; /* normal target display */
+}
+.target-page.hit {
+  color: lime; /* turns green when current = target */
+}
