@@ -150,6 +150,24 @@ window.addEventListener('keydown', (e) => {
 
   startPageScan(target);
 });
+// FAST TEXT BUTTON HANDLERS
+document.querySelectorAll('.fasttext').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const pageNum = parseInt(btn.getAttribute('data-page'), 10);
 
+    // Cancel any ongoing scan first
+    if (scanTimer) {
+      clearInterval(scanTimer);
+      scanTimer = null;
+      cleanupScanUI();
+    }
+
+    // Clear any partial typed input
+    inputBuffer = '';
+
+    // Jump straight into scanning to the target page
+    startPageScan(pageNum);
+  });
+});
 // Initial render
 renderNormal();
