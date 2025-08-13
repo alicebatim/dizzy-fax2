@@ -1,5 +1,5 @@
 // Config
-const SCAN_DELAY_MS = 10;
+const SCAN_DELAY_MS = 100; // 0.1s between increments (adjust to taste)
 const MIN_PAGE = 100;
 const MAX_PAGE = 999;
 
@@ -8,12 +8,14 @@ let currentPage = 100;
 let scanTimer = null;
 let inputBuffer = '';
 
+// Elements
 const elWrapper  = document.getElementById('ceefax');
 const elPageInfo = document.getElementById('pageInfo');
 const elDate     = document.getElementById('datePart');
 const elTime     = document.getElementById('timePart');
+const elTitle    = document.querySelector('.page-title');
 
-// Clock
+// Clock (yellow time, white date handled in CSS)
 function updateClock() {
   const now = new Date();
   const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
@@ -32,81 +34,122 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-function renderPage(targetPage = null) {
-  if (targetPage && scanTimer) {
-    const isHit = currentPage === targetPage;
-    elPageInfo.innerHTML = 
-      `P${String(currentPage).padStart(3, '0')} <span class="target-page${isHit ? ' hit' : ''}">${String(targetPage).padStart(3, '0')}</span>`;
-  } else {
-    elPageInfo.textContent = `P${String(currentPage).padStart(3, '0')}`;
-  }
+// Render helpers
+function renderNormal() {
+  elPageInfo.textContent = `P${String(currentPage).padStart(3, '0')}`;
 }
 
+function renderPartial(buffer) {
+  // Show incomplete entry as underscores (P1__, P12_)
+  const partial = buffer.padEnd(3, '_');
+  elPageInfo.textContent = `P${partial}`;
+}
 
+function renderScanning(targetPage) {
+  // Show current and target, target stays green
+  elPageInfo.innerHTML =
+    `P${String(currentPage).padStart(3, '0')} ` +
+    `<span id="targetPageSpan" class="scan-green">${String(targetPage).padStart(3, '0')}</span>`;
+}
 
+// Start scan after 3 digits are entered
 function startPageScan(targetPage) {
   targetPage = Math.max(MIN_PAGE, Math.min(MAX_PAGE, targetPage));
 
-  // Kill any existing scan
+  // Stop any existing scan
   if (scanTimer) {
     clearInterval(scanTimer);
     scanTimer = null;
   }
 
+  // If already on target, just normalize UI
   if (targetPage === currentPage) {
-    elWrapper.classList.remove('scanning');
-    renderPage();
+    cleanupScanUI();
+    renderNormal();
     return;
   }
 
+  // Begin scan visuals
   elWrapper.classList.add('scanning');
+  elTitle.classList.add('scan-green');
+  renderScanning(targetPage);
 
   scanTimer = setInterval(() => {
     currentPage++;
     if (currentPage > MAX_PAGE) currentPage = MIN_PAGE;
 
-    renderPage(targetPage); // show both current & target
+    renderScanning(targetPage);
 
-    if (currentPage === targetPage) {
-      clearInterval(scanTimer);
-      scanTimer = null;
-      elWrapper.classList.remove('scanning');
-      renderPage(); // revert to normal view
-    }
+ if (currentPage === targetPage) {
+  clearInterval(scanTimer);
+  scanTimer = null;
+
+  // Stop scanning visuals
+  elWrapper.classList.remove('scanning');
+  elTitle.classList.remove('scan-green');
+
+  // Remove green and immediately match title/date colour
+  const targetEl = document.getElementById('targetPageSpan');
+  if (targetEl) {
+    targetEl.classList.remove('scan-green');
+    targetEl.style.color = window.getComputedStyle(elTitle).color;
+  }
+
+  // Keep showing current & target together
+  renderScanning(targetPage);
+}
   }, SCAN_DELAY_MS);
 }
 
+function cleanupScanUI() {
+  elWrapper.classList.remove('scanning');
+  elTitle.classList.remove('scan-green');
+  const targetEl = document.getElementById('targetPageSpan');
+  if (targetEl) targetEl.classList.remove('scan-green');
+}
 
+// Public API (optional)
 window.gotoPage = function(n) {
+  inputBuffer = ''; // ensure we don't mix buffered entry with programmatic nav
   startPageScan(parseInt(n, 10));
 };
 
-// Keyboard handling
+// Keyboard: wait for exactly three digits
 window.addEventListener('keydown', (e) => {
   if (!/^\d$/.test(e.key)) return;
 
-  // Cancel scanning if 4th digit pressed
-  if (inputBuffer.length >= 3) {
-    inputBuffer = '';
-    if (scanTimer) {
-      clearInterval(scanTimer);
-      scanTimer = null;
-      elWrapper.classList.remove('scanning');
-      renderPage();
+  // If a digit arrives while scanning, treat it as the "4th" and cancel
+  if (scanTimer) {
+    clearInterval(scanTimer);
+    scanTimer = null;
+    cleanupScanUI();
+    renderNormal();
+    inputBuffer = ''; // reset buffer
+    return; // ignore this digit
+  }
+
+  // Build the three-digit buffer
+  if (inputBuffer.length < 3) {
+    inputBuffer += e.key;
+    if (inputBuffer.length < 3) {
+      // Show partial entry, do not scan
+      renderPartial(inputBuffer);
+      return;
     }
-    return;
   }
 
-  inputBuffer += e.key;
-  const display = inputBuffer.padEnd(3, ' ');
-  elPageInfo.textContent = `P${display}`;
+  // Exactly three digits entered: turn title & target green, then scan
+  const target = parseInt(inputBuffer, 10);
+  inputBuffer = '';
 
-  if (inputBuffer.length === 3) {
-    const target = parseInt(inputBuffer, 10);
-    inputBuffer = '';
-    startPageScan(target);
-  }
+  // Pre-render target in green immediately
+  elTitle.classList.add('scan-green');
+  elPageInfo.innerHTML =
+    `P${String(currentPage).padStart(3, '0')} ` +
+    `<span id="targetPageSpan" class="scan-green">${String(target).padStart(3, '0')}</span>`;
+
+  startPageScan(target);
 });
 
-
-renderPage();
+// Initial render
+renderNormal();

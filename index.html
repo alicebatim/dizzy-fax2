@@ -7,18 +7,27 @@
 </head>
 <body>
   <div class="ceefax-wrapper" id="ceefax">
-    <header class="ceefax-header">
-      <div class="header-line">
-        <span id="pageInfo" class="page-info">P100</span>
-        <span class="page-title">dizzy-fax</span>
-        <span class="timestamp">
-          <span id="datePart" class="date">WED 13 AUG</span>
-          <span id="timePart" class="time">22:36:42</span>
-        </span>
-      </div>
-    </header>
-    <!-- Add page content below -->
+  <header class="ceefax-header">
+    <div class="header-line">
+      <span id="pageInfo" class="page-info">P100</span>
+      <span class="page-title">dizzy-fax</span>
+      <span class="timestamp">
+        <span id="datePart" class="date">WED 13 AUG</span>
+        <span id="timePart" class="time">22:36:42</span>
+      </span>
+    </div>
+  </header>
+
+  <div id="pageContent"><!-- page body here --></div>
+
+  <div id="fasttext-bar">
+    <span class="fasttext red"    data-page="101">News 101</span>
+    <span class="fasttext green"  data-page="200">Sport 200</span>
+    <span class="fasttext yellow" data-page="300">Weather 300</span>
+    <span class="fasttext blue"   data-page="400">TV Guide 400</span>
   </div>
+</div>
+
 
   <script src="script.js"></script>
 </body>

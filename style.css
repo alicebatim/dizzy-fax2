@@ -83,3 +83,26 @@ body {
 .target-page.hit {
   color: lime; /* turns green when current = target */
 }
+#fasttext-bar {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'TeletextFont', monospace;
+  font-size: 16px;
+  background-color: black;
+  padding: 2px 4px;
+}
+
+.fasttext {
+  cursor: pointer;
+}
+
+.fasttext.red    { color: red; }
+.fasttext.green  { color: lime; }
+.fasttext.yellow { color: yellow; }
+.fasttext.blue   { color: cyan; }
+
+.scan-green {
+  color: green !important;
+}
+/* Green highlight for scan state */
+.scan-green { color: #00ff00 !important; }
