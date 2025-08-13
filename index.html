@@ -4,129 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>BBC CEEFAX P100</title>
-  <style>
-    /* Reset & base */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background: #111;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      font-family: 'Courier New', monospace;
-    }
-
-    /* 4:3 CEEFAX container */
-    .ceefax-container {
-      position: relative;
-      width: 800px;
-      height: 600px;
-      background-color: black;
-      color: #00FF00;
-      border: 4px solid #00FF00;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 10px;
-      overflow: hidden;
-    }
-
-    /* Header with page, title, time, input */
-    .ceefax-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 14px;
-    }
-    .ceefax-header .left,
-    .ceefax-header .center,
-    .ceefax-header .right {
-      display: flex;
-      align-items: center;
-    }
-    .page-info {
-      width: 50px;
-    }
-    .page-title {
-      flex: 1;
-      text-align: center;
-      transition: color 0.2s;
-    }
-    .timestamp {
-      width: 120px;
-      text-align: right;
-    }
-    /* Input & button */
-    #page-input {
-      width: 40px;
-      margin-left: 10px;
-      background: black;
-      color: #00FF00;
-      border: 1px solid #00FF00;
-      text-align: center;
-    }
-    #go-btn {
-      margin-left: 5px;
-      padding: 2px 6px;
-      background: #00FF00;
-      color: black;
-      border: none;
-      cursor: pointer;
-    }
-
-    /* Headline */
-    .headline {
-      font-size: 24px;
-      text-align: center;
-      padding: 10px 0;
-      border-top: 2px dashed #00FF00;
-      border-bottom: 2px dashed #00FF00;
-    }
-
-    /* Navigation */
-    .navigation ul {
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      font-size: 16px;
-      justify-content: center;
-    }
-    .navigation li {
-      cursor: pointer;
-      color: #00FFFF;
-    }
-
-    /* Footer & blinking cursor */
-    .ceefax-footer {
-      font-size: 14px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .cursor {
-      margin-left: 5px;
-      animation: blink 1s steps(1) infinite;
-    }
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-
-    /* Refresh overlay */
-    .refresh-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: white;
-      pointer-events: none;
-      z-index: 10;
-    }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
@@ -177,7 +55,6 @@
     const goBtn      = document.getElementById('go-btn');
     const navItems   = document.querySelectorAll('.navigation li');
 
-    // Attach click on nav items
     navItems.forEach(li => {
       li.addEventListener('click', () => {
         const target = parseInt(li.dataset.page, 10);
@@ -185,50 +62,40 @@
       });
     });
 
-    // Attach Go button
     goBtn.addEventListener('click', () => {
       const val = parseInt(input.value, 10);
       if (!isNaN(val)) goToPage(val);
       input.value = '';
     });
 
-    // Main routine
     function goToPage(target) {
       let current = parseInt(pageInfo.textContent.substring(1), 10);
       if (current === target) return;
 
-      // Flash title green
       pageTitle.style.color = '#00FF00';
-
-      // Animate number increment/decrement
       const step = current < target ? 1 : -1;
       const interval = setInterval(() => {
         current += step;
         pageInfo.textContent = 'P' + String(current).padStart(3, '0');
         if (current === target) {
           clearInterval(interval);
-          // Trigger screen wipe
           screenRefresh(() => {
-            // Revert title color after refresh
             pageTitle.style.color = '#00FF00';
           });
         }
       }, 40);
     }
 
-    // Creates a white overlay that wipes down then up
     function screenRefresh(callback) {
       const overlay = document.createElement('div');
       overlay.className = 'refresh-overlay';
       overlay.style.height = '0%';
       container.appendChild(overlay);
 
-      // Wipe down
       requestAnimationFrame(() => {
         overlay.style.transition = 'height 200ms linear';
         overlay.style.height = '100%';
         overlay.addEventListener('transitionend', () => {
-          // Wipe up
           overlay.style.transition = 'height 200ms linear';
           overlay.style.height = '0%';
           overlay.addEventListener('transitionend', () => {
