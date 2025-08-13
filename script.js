@@ -8,10 +8,10 @@ function updateClock() {
   const month   = months[now.getMonth()];
   const hours   = String(now.getHours()).padStart(2, '0');
   const mins    = String(now.getMinutes()).padStart(2, '0');
-  const secs    = Math.floor(now.getSeconds() / 10); // Ceefax style
+  const secs    = String(now.getSeconds()).padStart(2, '0'); // full seconds
 
   document.getElementById('timestamp').textContent =
-    `${dayName} ${dayNum} ${month} ${hours}:${mins}/${secs}`;
+    `${dayName} ${dayNum} ${month} ${hours}:${mins}:${secs}`;
 }
 
 setInterval(updateClock, 1000);
