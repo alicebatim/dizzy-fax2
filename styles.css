@@ -1,21 +1,24 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #000; /* full-screen black */
+}
+
 body {
-  background: #111;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   font-family: 'Courier New', monospace;
   text-transform: uppercase;
 }
 
 /* Responsive 4:3 container */
 .ceefax-container {
-  position: relative;
-  aspect-ratio: 4 / 3;      /* Lock ratio */
-  width: 95vw;              /* Fit viewport width with a little margin */
-  max-width: 800px;         /* Original size ceiling */
-  max-height: 600px;        /* Prevent overshooting vertically on huge screens */
-  background-color: black;
+  aspect-ratio: 4 / 3;
+  width: 95vw;
+  max-width: 800px;
+  background-color: #000; /* black "screen" area */
   color: #00FF00;
   display: flex;
   flex-direction: column;
@@ -23,14 +26,4 @@ body {
   padding: 10px;
   overflow: hidden;
   text-shadow: 0 0 2px currentColor;
-}
-
-/* Optional: for very narrow screens, scale text so it doesn’t overflow */
-@media (max-width: 500px) {
-  .ceefax-container {
-    font-size: 12px;
-  }
-  .headline {
-    font-size: 16px;
-  }
 }
