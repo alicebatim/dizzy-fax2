@@ -1,44 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>BBC CEEFAX P100</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8">
+<title>BBC CEEFAX</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="ceefax-container">
-    <!-- HEADER -->
-    <header class="ceefax-header">
-      <div class="page-info">P100</div>
-      <div class="page-title">BBC CEEFAX</div>
-      <div class="timestamp">WED 13 AUG 22:36/42</div>
-    </header>
+<div class="ceefax-wrapper">
+  <header class="ceefax-header">
+    <div class="header-line">
+      <span class="page-info">P100</span>
+      <span class="page-title">BBC CEEFAX</span>
+      <span id="timestamp" class="timestamp"></span>
+    </div>
+  </header>
+</div>
 
-    <!-- HEADLINE -->
-    <section class="headline yellow">
-      FORMULA 1: VERSTAPPEN WINS IN HUNGARY
-    </section>
-
-    <!-- NAVIGATION -->
-    <nav class="navigation">
-      <ul>
-        <li class="cyan" data-page="101">101 NEWS HEADLINES</li>
-        <li class="red" data-page="144">144 POLITICAL NEWS</li>
-        <li class="green" data-page="152">152 NEWSREEL</li>
-        <li class="magenta" data-page="300">300 SPORTS SUMMARY</li>
-        <li class="yellow" data-page="400">400 WEATHER FORECAST</li>
-      </ul>
-    </nav>
-
-    <!-- FOOTER -->
-    <footer class="ceefax-footer">
-      HEADLINES | SPORT | REGIONAL TV | A–Z INDEX
-      <span class="cursor">█</span>
-    </footer>
-  </div>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

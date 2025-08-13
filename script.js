@@ -1,44 +1,18 @@
-const container  = document.querySelector('.ceefax-container');
-const pageInfo   = document.querySelector('.page-info');
-const navItems   = document.querySelectorAll('.navigation li');
+function updateClock() {
+  const now = new Date();
+  const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 
-navItems.forEach(li => {
-  li.addEventListener('click', () => {
-    const target = parseInt(li.dataset.page, 10);
-    goToPage(target);
-  });
-});
+  const dayName = days[now.getDay()];
+  const dayNum  = String(now.getDate()).padStart(2, '0');
+  const month   = months[now.getMonth()];
+  const hours   = String(now.getHours()).padStart(2, '0');
+  const mins    = String(now.getMinutes()).padStart(2, '0');
+  const secs    = Math.floor(now.getSeconds() / 10); // Ceefax style
 
-function goToPage(target) {
-  let current = parseInt(pageInfo.textContent.substring(1), 10);
-  if (current === target) return;
-
-  const step = current < target ? 1 : -1;
-  const interval = setInterval(() => {
-    current += step;
-    pageInfo.textContent = 'P' + String(current).padStart(3, '0');
-    if (current === target) {
-      clearInterval(interval);
-      screenRefresh();
-    }
-  }, 40);
+  document.getElementById('timestamp').textContent =
+    `${dayName} ${dayNum} ${month} ${hours}:${mins}/${secs}`;
 }
 
-function screenRefresh() {
-  const overlay = document.createElement('div');
-  overlay.className = 'refresh-overlay';
-  overlay.style.height = '0%';
-  container.appendChild(overlay);
-
-  requestAnimationFrame(() => {
-    overlay.style.transition = 'height 200ms linear';
-    overlay.style.height = '100%';
-    overlay.addEventListener('transitionend', () => {
-      overlay.style.transition = 'height 200ms linear';
-      overlay.style.height = '0%';
-      overlay.addEventListener('transitionend', () => {
-        container.removeChild(overlay);
-      }, { once: true });
-    }, { once: true });
-  });
-}
+setInterval(updateClock, 1000);
+updateClock();

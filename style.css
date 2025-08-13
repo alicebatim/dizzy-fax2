@@ -1,0 +1,46 @@
+body {
+  background-color: black;
+  margin: 0;
+  display: flex;
+  justify-content: center; /* centre wrapper horizontally */
+  align-items: center;     /* centre wrapper vertically */
+  height: 100vh;
+}
+
+.ceefax-wrapper {
+  aspect-ratio: 4 / 3;      /* fixed TV shape */
+  width: 90vw;
+  max-width: 960px;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* vertically centre header */
+  box-sizing: border-box;
+  padding: 0.5ch 1ch;
+}
+
+/* Load Bedstead font if you have it locally */
+@font-face {
+  font-family: 'Bedstead';
+  src: url('bedstead.woff2') format('woff2'),
+       url('bedstead.woff') format('woff');
+  font-display: swap;
+}
+
+.ceefax-header {
+  font-family: 'Bedstead', 'Courier New', Courier, monospace;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.header-line {
+  display: flex;
+  justify-content: space-between; /* left, centre, right */
+  align-items: center;
+  white-space: nowrap;
+}
+
+.page-info  { color: #ffff00; width: 6ch; }
+.page-title { color: #00ff00; text-align: center; flex: 1; }
+.timestamp  { color: #ffffff; width: 16ch; text-align: right; }
